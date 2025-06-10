@@ -5,4 +5,6 @@ resource "aws_lambda_function" "file_processor" {
   role          = aws_iam_role.lambda_exec_role.arn
   filename      = "${path.module}/../lambda_function.zip"
   source_code_hash = filebase64sha256("${path.module}/../lambda_function.zip")
+
+  depends_on = [aws_iam_policy_attachment.lambda_logs]
 }
