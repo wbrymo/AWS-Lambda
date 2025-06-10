@@ -4,12 +4,16 @@ resource "random_id" "bucket_id" {
 
 resource "aws_s3_bucket" "upload_bucket" {
   bucket = "lambda-upload-bucket-${random_id.bucket_id.hex}"
-  acl    = "private"
 
   tags = {
     Name        = "Lambda Upload Bucket"
     Environment = "Dev"
   }
+}
+
+resource "aws_s3_bucket_acl" "bucket_acl" {
+  bucket = aws_s3_bucket.upload_bucket.id
+  acl    = "private"
 }
 
 resource "aws_s3_bucket_public_access_block" "block_public" {
